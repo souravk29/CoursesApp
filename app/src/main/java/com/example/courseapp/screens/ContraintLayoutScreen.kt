@@ -1,5 +1,9 @@
 package com.example.courseapp.screens
 
+
+
+/*  for every composable and elements in contraint layout we need to create the reference  */
+
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,6 +17,8 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.courseapp.R
@@ -31,7 +37,7 @@ fun ConstraintLayoutScreen() {
 
         // creating the references for composables that will be constrained within the layout
 
-        val (gradientBackground) = createRefs()
+        val (gradientBackground, profileImg, notificationImg) = createRefs()
 
         /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
               these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
@@ -50,6 +56,35 @@ fun ConstraintLayoutScreen() {
                 height = Dimension.fillToConstraints
 
         } )
+
+        // Header : (chain example)
+
+        val topGuideline = createGuidelineFromTop(16.dp)
+        val startGuideline = createGuidelineFromTop(16.dp)
+        val endGuideline = createGuidelineFromTop(16.dp)
+
+        // create chain
+
+        createHorizontalChain(
+            profileImg, notificationImg,
+            chainStyle = ChainStyle.SpreadInside
+        )
+
+        ProfileImage(
+            modifier = Modifier
+                .constrainAs(profileImg){
+                    top.linkTo(topGuideline)
+                }
+        )
+
+        NotificationImg(
+            modifier = Modifier
+                .constrainAs(notificationImg){
+                    top.linkTo(profileImg.top)
+                    bottom.linkTo(profileImg.bottom)
+                }
+        )
+
 
     }
 
