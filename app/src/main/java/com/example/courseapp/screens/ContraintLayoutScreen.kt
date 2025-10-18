@@ -1,5 +1,6 @@
 package com.example.courseapp.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
@@ -8,26 +9,45 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.example.courseapp.R
 
 @Composable
-fun ConstraintLayoutScreen(){
+fun ConstraintLayoutScreen() {
 
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
             .verticalScroll(rememberScrollState())
-    ){
+    ) {
 
         // creating the references for composables that will be constrained within the layout
 
-        val(gradientBackground) = createRefs()
+        val (gradientBackground) = createRefs()
 
     }
 
 }
 
+@Composable
+fun BackgroundGradient(){
+
+    Image(
+        painter = painterResource(id = R.drawable.ic_launcher_background),
+        contentDescription = "Main Background",
+        contentScale = ContentScale.FillBounds,
+
+        modifier = Modifier.ConstrainAs                                                             // initially here the "ConstrainAs" will be shown as error becoz only
+                                                                                                    // components defined inside the "ConstraintLayout" can benefit from
+                                                                                                    // "ConstraintLayout" or "ConstrainAs"
+
+                                                                                                    // this is the reason why we passed "modifier: Modifier" as parameter to this function
+    )
+}
 
 
 
