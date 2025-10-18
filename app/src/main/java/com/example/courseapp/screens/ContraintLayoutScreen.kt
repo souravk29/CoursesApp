@@ -9,16 +9,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import com.example.courseapp.R
 
 @Composable
 fun ConstraintLayoutScreen() {
 
-    ConstraintLayout(
+    ConstraintLayout(                                                                               // Layout that positions its children according to the constraints between them.
+                                                                                                    // Constraints are defined within the content of this ConstraintLayout Composable.
+                                                                                                    // Items in the layout that are to be constrained are initialized with ConstraintLayoutScope.createRef as: val textRef = createRef()
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
@@ -29,22 +33,39 @@ fun ConstraintLayoutScreen() {
 
         val (gradientBackground) = createRefs()
 
+        /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
+              these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
+
+        val horizontalGuideline1 = createGuidelineFromTop(0.45f)
+
+        BackgroundGradient(
+            modifier = Modifier
+            .constrainAs(gradientBackground){
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                start.linkTo(parent.start)
+                bottom.linkTo(horizontalGuideline1)
+
+                width = Dimension.fillToConstraints
+                height = Dimension.fillToConstraints
+
+        } )
+
     }
 
 }
 
 @Composable
-fun BackgroundGradient(){
+fun BackgroundGradient(modifier: Modifier){
 
     Image(
-        painter = painterResource(id = R.drawable.ic_launcher_background),
+        painter = painterResource(id = R.drawable.bkgrd),
         contentDescription = "Main Background",
         contentScale = ContentScale.FillBounds,
-
-        modifier = Modifier.ConstrainAs                                                             // initially here the "ConstrainAs" will be shown as error becoz only
+        modifier = modifier.alpha(0.8f)                                                                         // initially here the "constrainAs" will be shown as error becoz only
                                                                                                     // components defined inside the "ConstraintLayout" can benefit from
-                                                                                                    // "ConstraintLayout" or "ConstrainAs"
-
+                                                                                                    // "ConstraintLayout" or "ConstrainAs", thats  why we used "modifier"
+                                                                                                    // instead of "Modifier" => not created new modifier but used the previosly defined one from the  ContraintLayout
                                                                                                     // this is the reason why we passed "modifier: Modifier" as parameter to this function
     )
 }
