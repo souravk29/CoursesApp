@@ -49,7 +49,9 @@ fun JoinButton( modifier: Modifier, onClick: ()-> Unit ){
 fun CourseImage(modifier: Modifier){
 
     Image(
-        painter = painterResource(id = R.drawable.p23),
-        contentDescription = "Courses"
+        painter = painterResource(id = R.drawable.p25),
+        contentDescription = "Courses",
+        modifier = modifier
+
     )
 }

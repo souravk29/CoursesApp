@@ -118,11 +118,10 @@ fun ConstraintLayoutScreen() {
                 .constrainAs(coursesImg){
                     bottom.linkTo(horizontalGuideline1)
                     end.linkTo(endGuideline)
-                    start.linkTo(jointBtn.end, margin = 8.dp)
-                    top.linkTo(jointBtn.bottom, margin = 16.dp)
+                    top.linkTo(jointBtn.bottom, margin = 0.dp)
 
-                    width = Dimension.fillToConstraints                                             // to use this all four constraints should be defined as above
-                    height = Dimension.fillToConstraints
+                    width = Dimension.value(230.dp)
+                   height = Dimension.fillToConstraints
 
                 }
         )
