@@ -1,7 +1,6 @@
 package com.example.courseapp.screens
 
 
-
 /*  for every composable and elements in contraint layout we need to create the reference  */
 
 import androidx.compose.foundation.Image
@@ -27,8 +26,8 @@ import com.example.courseapp.R
 fun ConstraintLayoutScreen() {
 
     ConstraintLayout(                                                                               // Layout that positions its children according to the constraints between them.
-                                                                                                    // Constraints are defined within the content of this ConstraintLayout Composable.
-                                                                                                    // Items in the layout that are to be constrained are initialized with ConstraintLayoutScope.createRef as: val textRef = createRef()
+        // Constraints are defined within the content of this ConstraintLayout Composable.
+        // Items in the layout that are to be constrained are initialized with ConstraintLayoutScope.createRef as: val textRef = createRef()
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
@@ -37,7 +36,7 @@ fun ConstraintLayoutScreen() {
 
         // creating the references for composables that will be constrained within the layout
 
-        val (gradientBackground, profileImg, notificationImg) = createRefs()
+        val (gradientBackground, profileImg, notificationImg, WelcomeText, JointBtn, QuestionText, CoursesImg) = createRefs()
 
         /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
               these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
@@ -46,24 +45,24 @@ fun ConstraintLayoutScreen() {
 
         BackgroundGradient(
             modifier = Modifier
-            .constrainAs(gradientBackground){
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-                start.linkTo(parent.start)
-                bottom.linkTo(horizontalGuideline1)
+                .constrainAs(gradientBackground) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    start.linkTo(parent.start)
+                    bottom.linkTo(horizontalGuideline1)
 
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
 
-        } )
+                })
 
-        // Header : (chain example)
+        // 1. Header : (chain example)
 
         val topGuideline = createGuidelineFromTop(16.dp)
         val startGuideline = createGuidelineFromTop(16.dp)
         val endGuideline = createGuidelineFromTop(16.dp)
 
-        // create chain
+        // 2. create chain
 
         createHorizontalChain(
             profileImg, notificationImg,
@@ -72,22 +71,23 @@ fun ConstraintLayoutScreen() {
 
         ProfileImage(
             modifier = Modifier
-                .constrainAs(profileImg){
+                .constrainAs(profileImg) {
                     top.linkTo(topGuideline)
                 }
         )
 
         NotificationImg(
             modifier = Modifier
-                .constrainAs(notificationImg){
+                .constrainAs(notificationImg) {
                     top.linkTo(profileImg.top)
                     bottom.linkTo(profileImg.bottom)
                 }
         )
 
+         // 3. Middle part
+
 
     }
-
 }
 
 
