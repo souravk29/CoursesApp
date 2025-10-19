@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.modifier.modifierLocalOf
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.ConstraintLayoutBaseScope
 import androidx.constraintlayout.compose.Dimension
 import com.example.courseapp.R
 
@@ -26,8 +28,8 @@ import com.example.courseapp.R
 fun ConstraintLayoutScreen() {
 
     ConstraintLayout(                                                                               // Layout that positions its children according to the constraints between them.
-        // Constraints are defined within the content of this ConstraintLayout Composable.
-        // Items in the layout that are to be constrained are initialized with ConstraintLayoutScope.createRef as: val textRef = createRef()
+                                                                                                    // Constraints are defined within the content of this ConstraintLayout Composable.
+                                                                                                    // Items in the layout that are to be constrained are initialized with ConstraintLayoutScope.createRef as: val textRef = createRef()
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.surface)
@@ -36,7 +38,7 @@ fun ConstraintLayoutScreen() {
 
         // creating the references for composables that will be constrained within the layout
 
-        val (gradientBackground, profileImg, notificationImg, WelcomeText, JointBtn, QuestionText, CoursesImg) = createRefs()
+        val (gradientBackground, profileImg, notificationImg, welcomeText, jointBtn, questionText, coursesImg) = createRefs()
 
         /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
               these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
@@ -57,10 +59,10 @@ fun ConstraintLayoutScreen() {
                 })
 
         // 1. Header : (chain example)
+        val topGuideline = createGuidelineFromTop(34.dp)
+        val startGuideline = createGuidelineFromStart(16.dp) // <-- FIX
+        val endGuideline = createGuidelineFromEnd(16.dp)     // <-- FIX
 
-        val topGuideline = createGuidelineFromTop(16.dp)
-        val startGuideline = createGuidelineFromTop(16.dp)
-        val endGuideline = createGuidelineFromTop(16.dp)
 
         // 2. create chain
 
@@ -85,6 +87,45 @@ fun ConstraintLayoutScreen() {
         )
 
          // 3. Middle part
+
+        WelcomeText(
+            modifier = Modifier
+            .constrainAs(welcomeText){
+                top.linkTo(profileImg.bottom, margin = 32.dp)
+                start.linkTo(startGuideline)
+            }
+        )
+
+        QuestionText(
+            modifier = Modifier
+                .constrainAs(questionText){
+                    top.linkTo( welcomeText.bottom, margin = 8.dp)
+                    start.linkTo(welcomeText.start)
+                }
+        )
+
+        JoinButton(
+            modifier = Modifier
+                .constrainAs(jointBtn){
+                top.linkTo(questionText.bottom, margin = 32.dp)
+                    start.linkTo(questionText.start)
+                    end.linkTo(questionText.end)
+            }
+        ){ /* due to lambda exp in parameter */  }
+
+        CourseImage(
+            modifier = Modifier
+                .constrainAs(coursesImg){
+                    bottom.linkTo(horizontalGuideline1)
+                    end.linkTo(endGuideline)
+                    start.linkTo(jointBtn.end, margin = 8.dp)
+                    top.linkTo(jointBtn.bottom, margin = 16.dp)
+
+                    width = Dimension.fillToConstraints                                             // to use this all four constraints should be defined as above
+                    height = Dimension.fillToConstraints
+
+                }
+        )
 
 
     }
