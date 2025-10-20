@@ -38,7 +38,7 @@ fun ConstraintLayoutScreen() {
 
         // creating the references for composables that will be constrained within the layout
 
-        val (gradientBackground, profileImg, notificationImg, welcomeText, jointBtn, questionText, coursesImg) = createRefs()
+        val (gradientBackground, profileImg, notificationImg, welcomeText, jointBtn, questionText, coursesImg, myCard) = createRefs()
 
         /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
               these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
@@ -91,7 +91,7 @@ fun ConstraintLayoutScreen() {
         WelcomeText(
             modifier = Modifier
             .constrainAs(welcomeText){
-                top.linkTo(profileImg.bottom, margin = 32.dp)
+                top.linkTo(profileImg.bottom, margin = 24.dp)
                 start.linkTo(startGuideline)
             }
         )
@@ -116,12 +116,27 @@ fun ConstraintLayoutScreen() {
         CourseImage(
             modifier = Modifier
                 .constrainAs(coursesImg){
-                    bottom.linkTo(horizontalGuideline1)
+                    bottom.linkTo(horizontalGuideline1, margin = 30.dp)
                     end.linkTo(endGuideline)
                     top.linkTo(jointBtn.bottom, margin = 0.dp)
 
                     width = Dimension.value(230.dp)
                    height = Dimension.fillToConstraints
+
+                }
+        )
+
+        MyCard(
+            modifier = Modifier
+                .constrainAs(myCard){
+                    top.linkTo(horizontalGuideline1, margin = (-28).dp)
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+
+                    width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
+
 
                 }
         )
