@@ -38,7 +38,10 @@ fun ConstraintLayoutScreen() {
 
         // creating the references for composables that will be constrained within the layout
 
-        val (gradientBackground, profileImg, notificationImg, welcomeText, jointBtn, questionText, coursesImg, myCard) = createRefs()
+        val (gradientBackground, profileImg, notificationImg,
+            welcomeText, jointBtn, questionText,
+            coursesImg, myCard, textOurCourses, andDev,
+            devOps, webDev, webt, andt, devt) = createRefs()                      //***   ONLY 16 SUCH REFERENCES CAN BE CREATED FROM 1 "createRefs()"
 
         /*    guideline : Lines to which other ConstrainedLayoutReferences may be constrained to,
               these are defined at either a fixed or percent position from an anchor of the ConstraintLayout parent (top, bottom, start, end, absoluteLeft, absoluteRight).      */
@@ -116,12 +119,12 @@ fun ConstraintLayoutScreen() {
         CourseImage(
             modifier = Modifier
                 .constrainAs(coursesImg){
-                    bottom.linkTo(horizontalGuideline1, margin = 30.dp)
-                    end.linkTo(endGuideline)
-                    top.linkTo(jointBtn.bottom, margin = 0.dp)
+                    bottom.linkTo(horizontalGuideline1, margin = 10.dp)
+                    end.linkTo(webt.end)
+                    top.linkTo(jointBtn.bottom)
 
-                    width = Dimension.value(230.dp)
-                   height = Dimension.fillToConstraints
+                    width = Dimension.value(300.dp)
+                   height = Dimension.value(210.dp)
 
                 }
         )
@@ -138,6 +141,69 @@ fun ConstraintLayoutScreen() {
                     height = Dimension.fillToConstraints
 
 
+                }
+        )
+
+        TextOurCourses(
+            modifier = Modifier
+                .constrainAs(textOurCourses){
+                top.linkTo(myCard.top, margin = 16.dp)
+                start.linkTo(myCard.start, margin = 16.dp)
+            }
+        )
+
+        AndroidCourse(
+            modifier = Modifier.constrainAs(andDev){
+                top.linkTo(textOurCourses.bottom, margin = 16.dp)
+            }
+        )
+
+        DevOpsCourse(
+            modifier = Modifier
+                .constrainAs(devOps){
+                    top.linkTo(andDev.top, margin = 16.dp)
+                    bottom.linkTo(andDev.bottom, margin = 16.dp)
+                }
+        )
+
+        WebDevCourse(
+            modifier = Modifier
+                .constrainAs(webDev){
+                    top.linkTo(andDev.top, margin = 16.dp)
+                    bottom.linkTo(andDev.bottom, margin = 16.dp)
+                }
+        )
+
+        // chaining all three items
+        createHorizontalChain(
+            andDev, devOps, webDev,
+            chainStyle = ChainStyle.Spread
+        )
+
+        WebText(
+            modifier = Modifier
+                .constrainAs(webt){
+                    top.linkTo(webDev.bottom, margin =    5.dp)
+                    start.linkTo(webDev.start)
+                    end.linkTo(webDev.end)
+                }
+        )
+
+        AndText(
+            modifier = Modifier
+                .constrainAs(andt){
+                    top.linkTo(andDev.bottom, margin =     2.dp)
+                    start.linkTo(andDev.start)
+                    end.linkTo(andDev.end)
+                }
+        )
+
+        DevText(
+            modifier = Modifier
+                .constrainAs(devt){
+                    top.linkTo(devOps.bottom, margin =    5.dp)
+                    start.linkTo(devOps.start)
+                    end.linkTo(devOps.end)
                 }
         )
 
